@@ -1,0 +1,8 @@
+# Error with DNS zone deletion
+
+```
+Failed to delete record set 'api.siva'. Error: The scope 'ocp4ninja.com/api.siva' cannot perform delete operation because following scope(s) are locked: '/subscriptions/81c814a6-8a3b-4307-899f-22e441caf811/resourcegroups/OCP/providers/Microsoft.Network/dnszones/ocp4ninja.com'. Please remove the lock and try again.
+
+```
+
+Gave the ocp4sp the 'DNS Zone Contributor' role.
