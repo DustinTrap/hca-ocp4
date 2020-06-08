@@ -1,0 +1,5 @@
+auth/kubeadmin-password
+auth/kubeconfig
+oc
+openshift-install
+kubectl
