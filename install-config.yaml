@@ -1,0 +1,48 @@
+apiVersion: v1
+baseDomain: paas.medcity.net
+compute:
+- hyperthreading: Enabled   
+  name: worker
+  replicas: 3 
+  platform:
+    azure:
+      type: Standard_D2s_v3
+      osDisk:
+        diskSizeGB: 512
+      zones:
+      - "1"
+      - "2"
+      - "3"
+controlPlane:
+  hyperthreading: Enabled   
+  name: master
+  replicas: 3 
+  platform:
+    azure:
+      osDisk:
+        diskSizeGB: 512
+      type: Standard_D8s_v3
+metadata:
+  name: az-test 
+networking:
+  clusterNetwork:
+  # we used a /17 for OCP3.  that's 32766 pods
+  # max number of tested pods in a 4.2 cluster is 150000
+  - cidr: 172.20.0.0/17 
+      # subnet prefix for each worker node 23 gives them 510 pod ips.
+      # that's the equivilent of what we did for OCP3.
+      # however, this combo only lets us have like 31 compute nodes in a cluster.
+      # perhpas we need another block so we don't have to split our block.
+    hostPrefix: 23
+    # block of IPs for services
+  serviceNetwork: 
+  - 172.20.128.0/17
+  defaultNetwork:
+    type: OpenShiftSDN
+    openshiftSDNConfig:
+      mode: NetworkPolicy
+platform:
+  azure:
+    region: centralus
+    baseDomainResourceGroupName: <resource_group>
+fips: false
